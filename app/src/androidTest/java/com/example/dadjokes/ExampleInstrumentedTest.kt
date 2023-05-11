@@ -1,4 +1,4 @@
-package com.example.tsi_application
+package com.example.dadjokes
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,6 +1,8 @@
-package com.example.tsi_application
+package com.example.dadjokes
 
 import androidx.lifecycle.*
+import com.example.dadjokes.data.JokeRepository
+import com.example.dadjokes.local.entities.JokeEntity
 import kotlinx.coroutines.launch
 
 class JokeViewModel(private val jokeRepository: JokeRepository) : ViewModel() {

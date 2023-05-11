@@ -1,6 +1,8 @@
-package com.example.tsi_application
+package com.example.dadjokes.data
 
 import androidx.annotation.WorkerThread
+import com.example.dadjokes.local.daos.JokeDao
+import com.example.dadjokes.local.entities.JokeEntity
 import kotlinx.coroutines.flow.Flow
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO

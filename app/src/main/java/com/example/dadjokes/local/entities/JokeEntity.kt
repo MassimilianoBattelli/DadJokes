@@ -1,4 +1,4 @@
-package com.example.tsi_application
+package com.example.dadjokes.local.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

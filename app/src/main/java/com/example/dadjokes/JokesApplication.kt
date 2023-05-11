@@ -1,6 +1,8 @@
-package com.example.tsi_application
+package com.example.dadjokes
 
 import android.app.Application
+import com.example.dadjokes.data.JokeRepository
+import com.example.dadjokes.local.JokeRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

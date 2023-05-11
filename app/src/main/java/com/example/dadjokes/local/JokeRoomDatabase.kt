@@ -1,10 +1,12 @@
-package com.example.tsi_application
+package com.example.dadjokes.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.dadjokes.local.daos.JokeDao
+import com.example.dadjokes.local.entities.JokeEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

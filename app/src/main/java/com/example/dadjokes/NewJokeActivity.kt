@@ -1,4 +1,4 @@
-package com.example.tsi_application
+package com.example.dadjokes
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
+import com.example.dadjokes.R
 
 class NewJokeActivity : AppCompatActivity() {
 

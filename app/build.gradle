@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.tsi_application'
+    namespace 'com.example.dadjokes'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.tsi_application"
+        applicationId "com.example.dadjokes"
         minSdk 24
         targetSdk 33
         versionCode 1

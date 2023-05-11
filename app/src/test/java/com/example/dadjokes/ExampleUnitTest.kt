@@ -1,4 +1,4 @@
-package com.example.tsi_application
+package com.example.dadjokes
 
 import org.junit.Test
 

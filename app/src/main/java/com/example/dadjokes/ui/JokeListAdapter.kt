@@ -1,4 +1,4 @@
-package com.example.tsi_application
+package com.example.dadjokes.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dadjokes.R
+import com.example.dadjokes.local.entities.JokeEntity
 
 class JokeListAdapter : ListAdapter<JokeEntity, JokeListAdapter.JokeViewHolder>(JokesComparator()) {
 
