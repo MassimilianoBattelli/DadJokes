@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface JokeDao {
 
     @Query("SELECT * FROM joke_table ORDER BY joke ASC")
-    fun getAlphabetizedWords(): Flow<List<JokeEntity>>
+    fun getJokes(): Flow<List<JokeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(jokeEntity: JokeEntity)

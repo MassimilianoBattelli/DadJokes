@@ -1,0 +1,47 @@
+package com.example.dadjokes.viewmodels
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.dadjokes.data.JokeRepository
+import com.example.dadjokes.data.JokeRepositoryInterface
+import com.example.dadjokes.local.daos.JokeDao
+import com.example.dadjokes.models.JokeModel
+import com.example.dadjokes.remote.RemoteApi
+import com.example.dadjokes.remote.models.JokeResponse
+import com.example.dadjokes.remote.models.JokeResponseWrapper
+import kotlinx.coroutines.launch
+import retrofit2.Response
+import kotlinx.coroutines.flow.collect
+
+class HomepageViewModel: ViewModel() {
+
+    private val jokeRepository : JokeRepositoryInterface
+
+    init {
+        jokeRepository = JokeRepository()
+    }
+
+    val jokes : MutableLiveData<List<JokeModel>> by lazy {
+        MutableLiveData<List<JokeModel>>()
+    }
+
+    fun getJokeList() {
+        viewModelScope.launch {
+            jokeRepository.fetchJokesFlow().collect {
+                resultJokesFromRepo ->
+                val uiJokes = resultJokesFromRepo.map { it.toJokeModel() }
+                jokes.postValue(uiJokes)
+            }
+        }
+    }
+
+    fun JokeResponse.toJokeModel() : JokeModel {
+        val jokeModel = JokeModel(
+            setup = this.setup,
+            punchline = this.punchline,
+            type = this.type
+        )
+        return jokeModel
+    }
+}

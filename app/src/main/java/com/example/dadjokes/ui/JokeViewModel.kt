@@ -6,7 +6,7 @@ import com.example.dadjokes.local.entities.JokeEntity
 import kotlinx.coroutines.launch
 
 class JokeViewModel(private val jokeRepository: JokeRepository) : ViewModel() {
-
+    /*
     // Using LiveData and caching what allWords returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
@@ -29,4 +29,6 @@ class JokeViewModelFactory(private val repository: JokeRepository) : ViewModelPr
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+    */
+
 }
