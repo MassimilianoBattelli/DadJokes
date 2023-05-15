@@ -10,11 +10,14 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface JokeDao {
 
-    @Query("SELECT * FROM joke_table ORDER BY joke ASC")
-    fun getJokes(): Flow<List<JokeEntity>>
+    @Query("SELECT * FROM joke_table ORDER BY id ASC")
+    fun getJokes(): List<JokeEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(jokeEntity: JokeEntity)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertJokes(jokeEntities: List<JokeEntity>)
 
     @Query("DELETE FROM joke_table")
     suspend fun deleteAll()

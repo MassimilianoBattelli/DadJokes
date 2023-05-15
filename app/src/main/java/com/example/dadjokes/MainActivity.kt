@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dadjokes.models.JokeModel
 import com.example.dadjokes.ui.JokeAdapter
+import com.example.dadjokes.viewmodels.HomePageViewModelFactory
 import com.example.dadjokes.viewmodels.HomepageViewModel
 
 class MainActivity : AppCompatActivity(){
@@ -44,7 +45,10 @@ class MainActivity : AppCompatActivity(){
             startActivityForResult(intent, newJokeActivityRequestCode)
         }
         */
-        viewModel = ViewModelProvider(this)[HomepageViewModel::class.java]
+
+
+        viewModel = ViewModelProvider(this, HomePageViewModelFactory((application as JokesApplication).repository))[HomepageViewModel::class.java]
+        //viewModel = ViewModelProvider(this)[HomepageViewModel::class.java]
         viewModel.jokes.observe(this) { jokes ->
             Log.d(TAG, "hotels $jokes")
             bindJokes(jokes)

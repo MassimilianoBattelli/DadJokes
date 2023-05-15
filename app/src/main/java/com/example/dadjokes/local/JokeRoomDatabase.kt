@@ -56,11 +56,6 @@ public abstract class JokeRoomDatabase : RoomDatabase() {
             // Delete all content here.
             jokeDao.deleteAll()
 
-            // Add sample words.
-            var joke = JokeEntity("Hello")
-            jokeDao.insert(joke)
-            joke = JokeEntity("World!")
-            jokeDao.insert(joke)
 
             // TODO: Add your own words!
         }

@@ -18,7 +18,7 @@ object RemoteApi {
         .baseUrl(BASE_URL)
         .build()
 
-    val JokeRemoteService: JokeRemoteService by lazy {
+    val jokeRemoteService: JokeRemoteService by lazy {
         retrofit.create(JokeRemoteService::class.java)
     }
 }
