@@ -5,14 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dadjokes.data.JokeRepository
 import com.example.dadjokes.data.JokeRepositoryInterface
-import com.example.dadjokes.local.daos.JokeDao
 import com.example.dadjokes.models.JokeModel
-import com.example.dadjokes.remote.RemoteApi
-import com.example.dadjokes.remote.models.JokeResponse
-import com.example.dadjokes.remote.models.JokeResponseWrapper
+import com.example.dadjokes.remote.models.Joke
 import kotlinx.coroutines.launch
-import retrofit2.Response
-import kotlinx.coroutines.flow.collect
 
 class HomepageViewModel: ViewModel() {
 
@@ -29,19 +24,19 @@ class HomepageViewModel: ViewModel() {
     fun getJokeList() {
         viewModelScope.launch {
             jokeRepository.fetchJokesFlow().collect {
-                resultJokesFromRepo ->
+                    resultJokesFromRepo ->
                 val uiJokes = resultJokesFromRepo.map { it.toJokeModel() }
                 jokes.postValue(uiJokes)
             }
         }
     }
 
-    fun JokeResponse.toJokeModel() : JokeModel {
-        val jokeModel = JokeModel(
+    private fun Joke.toJokeModel(): JokeModel {
+        return JokeModel(
             setup = this.setup,
             punchline = this.punchline,
-            type = this.type
+            type = this.type,
+            id = this._id
         )
-        return jokeModel
     }
 }

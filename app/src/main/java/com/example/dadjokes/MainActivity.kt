@@ -1,23 +1,14 @@
 package com.example.dadjokes
 
-import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dadjokes.local.entities.JokeEntity
-import com.example.dadjokes.R
 import com.example.dadjokes.models.JokeModel
-import com.example.dadjokes.remote.models.JokeResponseWrapper
 import com.example.dadjokes.ui.JokeAdapter
 import com.example.dadjokes.viewmodels.HomepageViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity(){
 

@@ -1,16 +1,10 @@
 package com.example.dadjokes.data
 
-import androidx.annotation.WorkerThread
-import com.example.dadjokes.local.daos.JokeDao
-import com.example.dadjokes.local.entities.JokeEntity
-import com.example.dadjokes.remote.RemoteApi
 import com.example.dadjokes.remote.RemoteApi.JokeRemoteService
-import com.example.dadjokes.remote.models.JokeResponse
-import com.example.dadjokes.remote.models.JokeResponseWrapper
+import com.example.dadjokes.remote.models.Joke
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 
 // Declares the DAO as a private property in the constructor. Pass in the DAO
 // instead of the whole database, because you only need access to the DAO
@@ -26,13 +20,12 @@ class JokeRepository : JokeRepositoryInterface {
         return JokeDao.getJokes()
     }
     */
-    override suspend fun fetchJokesFlow(): Flow<List<JokeResponse>> = flow {
+    override suspend fun fetchJokesFlow(): Flow<List<Joke>> = flow {
         while (true) {
             val metadata = JokeRemoteService.getMetadata()
             val body = metadata.body
 
-            val jokeList = listOf(body) // Create a list with a single JokeResponse
-            emit(jokeList)
+            emit(body)
             delay(5000)
         }
     }
