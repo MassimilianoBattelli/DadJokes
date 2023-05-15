@@ -1,5 +1,6 @@
 package com.example.dadjokes.remote
 
+import com.example.dadjokes.remote.models.CountResponse
 import com.example.dadjokes.remote.models.JokeResponse
 
 import retrofit2.http.GET
@@ -14,4 +15,6 @@ interface JokeRemoteService {
     @GET("random/joke")
     suspend fun getMetadata(): JokeResponse
 
+    @GET("joke/count")
+    suspend fun getCount(): CountResponse
 }
