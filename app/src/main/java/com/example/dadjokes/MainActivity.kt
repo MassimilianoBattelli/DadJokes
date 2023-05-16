@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(){
         viewModel = ViewModelProvider(this, HomePageViewModelFactory((application as JokesApplication).repository))[HomepageViewModel::class.java]
         //viewModel = ViewModelProvider(this)[HomepageViewModel::class.java]
         viewModel.jokes.observe(this) { jokes ->
-            Log.d(TAG, "hotels $jokes")
+            Log.d(TAG, "jokes $jokes")
             bindJokes(jokes)
         }
         viewModel.getJokeList()

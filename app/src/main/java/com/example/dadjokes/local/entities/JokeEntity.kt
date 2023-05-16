@@ -8,6 +8,5 @@ import androidx.room.PrimaryKey
 data class JokeEntity(
     @PrimaryKey val id: String,
     @ColumnInfo(name = "setup") val setup: String,
-    @ColumnInfo(name = "punchline") val punchline: String,
-    @ColumnInfo(name = "type") val type: String
+    @ColumnInfo(name = "punchline") val punchline: String
 )

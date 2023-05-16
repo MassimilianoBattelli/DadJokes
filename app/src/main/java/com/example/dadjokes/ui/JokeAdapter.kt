@@ -22,13 +22,11 @@ class JokeAdapter(private val dataSource: List<JokeModel>) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtSetup: TextView
         val txtPunchline: TextView
-        val txtType: TextView
 
         init {
             // Define click listener for the ViewHolder's View
             txtSetup = view.findViewById(R.id.txtSetup)
             txtPunchline = view.findViewById(R.id.txtPunchline)
-            txtType = view.findViewById(R.id.txtType)
         }
     }
 

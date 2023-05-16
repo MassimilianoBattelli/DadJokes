@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
-@Database(entities = [JokeEntity::class], version = 1, exportSchema = false)
+@Database(entities = [JokeEntity::class], version = 2, exportSchema = false)
 public abstract class JokeRoomDatabase : RoomDatabase() {
 
     abstract fun JokeDao(): JokeDao
@@ -32,6 +32,7 @@ public abstract class JokeRoomDatabase : RoomDatabase() {
                     "Joke_database"
                 )
                 .addCallback(JokeDatabaseCallback(scope))
+                .fallbackToDestructiveMigration()
                 .build()
                 INSTANCE = instance
                 // return instance
@@ -56,8 +57,6 @@ public abstract class JokeRoomDatabase : RoomDatabase() {
             // Delete all content here.
             jokeDao.deleteAll()
 
-
-            // TODO: Add your own words!
         }
     }
 }

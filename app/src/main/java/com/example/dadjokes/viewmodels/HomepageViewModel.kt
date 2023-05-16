@@ -28,7 +28,6 @@ class HomepageViewModel(private val jokeRepository: JokeRepositoryInterface) : V
         return JokeModel(
             setup = this.setup,
             punchline = this.punchline,
-            type = this.type,
             id = this._id
         )
     }

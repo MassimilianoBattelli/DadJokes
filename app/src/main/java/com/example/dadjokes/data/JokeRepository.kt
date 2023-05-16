@@ -57,13 +57,11 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
     private fun JokeEntity.toJoke(): Joke {
         return Joke( setup = this.setup,
             punchline = this.punchline,
-            type = this.type,
             _id = this.id)
     }
     private fun Joke.toJokeEntity(): JokeEntity {
         return JokeEntity( setup = this.setup,
             punchline = this.punchline,
-            type = this.type,
             id = this._id)
     }
 }
