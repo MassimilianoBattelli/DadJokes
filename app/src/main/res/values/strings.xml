@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dad-Jokes</string>
+    <string name="app_name"></string>
     <string name="hint_joke">Joke...</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Joke not saved because it is empty.</string>

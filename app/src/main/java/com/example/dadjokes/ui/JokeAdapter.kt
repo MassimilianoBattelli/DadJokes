@@ -65,15 +65,13 @@ class JokeAdapter(
             CoroutineScope(Dispatchers.Main).launch {
                 val isFavourite = listener.searchFavourite(jokeModel)
                 listener.onFavouriteButtonClicked(jokeModel, isFavourite)
+
+                val heartImageResource =
+                    if (!isFavourite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24
+                viewHolder.imageHeart.setImageResource(heartImageResource)
             }
         }
 
-         /*
-            val isFavourite = // Aggiungi qui la logica per verificare se l'elemento è già tra i preferiti
-            val heartImageResource = if (isFavourite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24
-            viewHolder.imageHeart.setImageResource(heartImageResource)
-        }
-        */
     }
 
     // Return the size of your dataset (invoked by the layout manager)
