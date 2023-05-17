@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.dadjokes.local.entities.FavJokeEntity
 import com.example.dadjokes.local.entities.JokeEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +13,9 @@ interface JokeDao {
 
     @Query("SELECT * FROM joke_table ORDER BY id ASC")
     fun getJokes(): List<JokeEntity>
+
+    @Query("SELECT * FROM fav_joke_table ORDER BY id ASC")
+    fun getFavJokes(): List<FavJokeEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(jokeEntity: JokeEntity)

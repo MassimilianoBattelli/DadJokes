@@ -6,5 +6,6 @@ import retrofit2.Response
 
 interface JokeRepositoryInterface {
 
+    suspend fun fetchFavJokesFlow(): Flow<List<Joke>>
     suspend fun fetchJokesFlow(): Flow<List<Joke>>
 }

@@ -2,6 +2,7 @@ package com.example.dadjokes.data
 
 import androidx.annotation.WorkerThread
 import com.example.dadjokes.local.JokeRoomDatabase
+import com.example.dadjokes.local.entities.FavJokeEntity
 import com.example.dadjokes.local.entities.JokeEntity
 import com.example.dadjokes.remote.JokeRemoteService
 import com.example.dadjokes.remote.RemoteApi.jokeRemoteService
@@ -15,17 +16,18 @@ import kotlinx.coroutines.withContext
 // Declares the DAO as a private property in the constructor. Pass in the DAO
 // instead of the whole database, because you only need access to the DAO
 class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInterface {
-    /*
+
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(jokeEntity: JokeEntity) {
-        JokeDao.insert(jokeEntity)
+    override suspend fun fetchFavJokesFlow(): Flow<List<Joke>> = flow {
+        val favouritesJokes: List<FavJokeEntity> = withContext(Dispatchers.IO) {
+            database.JokeDao().getFavJokes()
+        }
+        emit(favouritesJokes.map { it.toJoke() })
+
     }
 
-    fun getJokes(): Flow<List<JokeEntity>> {
-        return JokeDao.getJokes()
-    }
-    */
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     override suspend fun fetchJokesFlow(): Flow<List<Joke>> = flow {
@@ -54,11 +56,19 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
             i += 1
         }
     }
+
     private fun JokeEntity.toJoke(): Joke {
         return Joke( setup = this.setup,
             punchline = this.punchline,
             _id = this.id)
     }
+
+    private fun FavJokeEntity.toJoke(): Joke {
+        return Joke(setup = this.setup,
+            punchline = this.punchline,
+            _id = this.id)
+    }
+
     private fun Joke.toJokeEntity(): JokeEntity {
         return JokeEntity( setup = this.setup,
             punchline = this.punchline,

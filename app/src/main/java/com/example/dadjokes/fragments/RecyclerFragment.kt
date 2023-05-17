@@ -1,7 +1,6 @@
 package com.example.dadjokes.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +13,11 @@ import com.example.dadjokes.R
 import com.example.dadjokes.models.JokeModel
 import com.example.dadjokes.ui.JokeAdapter
 import com.example.dadjokes.viewmodels.HomePageViewModelFactory
-import com.example.dadjokes.viewmodels.HomepageViewModel
+import com.example.dadjokes.viewmodels.HomeViewModel
 
 class RecyclerFragment : Fragment() {
 
-    private lateinit var viewModel: HomepageViewModel
+    private lateinit var viewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,8 +29,7 @@ class RecyclerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity(), HomePageViewModelFactory((requireActivity().application as MainApplication).repository))
-            .get(HomepageViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(), HomePageViewModelFactory((requireActivity().application as MainApplication).repository))[HomeViewModel::class.java]
 
         viewModel.jokes.observe(viewLifecycleOwner) { jokes ->
             bindJokes(jokes)
