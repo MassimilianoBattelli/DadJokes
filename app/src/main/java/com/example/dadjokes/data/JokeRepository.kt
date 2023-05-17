@@ -4,6 +4,7 @@ import androidx.annotation.WorkerThread
 import com.example.dadjokes.local.JokeRoomDatabase
 import com.example.dadjokes.local.entities.FavJokeEntity
 import com.example.dadjokes.local.entities.JokeEntity
+import com.example.dadjokes.models.JokeModel
 import com.example.dadjokes.remote.JokeRemoteService
 import com.example.dadjokes.remote.RemoteApi.jokeRemoteService
 import com.example.dadjokes.remote.models.Joke
@@ -21,6 +22,20 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
     @WorkerThread
     override suspend fun searchFavourite(jokeId: String): Boolean{
         return  database.JokeDao().getJokeById(jokeId)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    override suspend fun insertFavourite(joke: Joke){
+        val favJokeEntity = joke.toFavJokeEntity()
+        database.JokeDao().insertFavourite(favJokeEntity)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    override suspend fun deleteFavourite(joke: Joke){
+        val favJokeEntity = joke.toFavJokeEntity()
+        database.JokeDao().deleteFavourite(favJokeEntity)
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -68,17 +83,25 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
             _id = this.id)
     }
 
+    private fun Joke.toJokeEntity(): JokeEntity {
+        return JokeEntity( setup = this.setup,
+            punchline = this.punchline,
+            id = this._id)
+    }
+
     private fun FavJokeEntity.toJoke(): Joke {
         return Joke(setup = this.setup,
             punchline = this.punchline,
             _id = this.id)
     }
 
-    private fun Joke.toJokeEntity(): JokeEntity {
-        return JokeEntity( setup = this.setup,
+    private fun Joke.toFavJokeEntity(): FavJokeEntity {
+        return FavJokeEntity( setup = this.setup,
             punchline = this.punchline,
             id = this._id)
     }
+
+
 
     private suspend fun <T> doesItemExist(daoQuery: suspend () -> T?): Boolean {
         return withContext(Dispatchers.IO) {

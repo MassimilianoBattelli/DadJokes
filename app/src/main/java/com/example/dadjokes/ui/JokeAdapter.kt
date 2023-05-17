@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dadjokes.R
-import com.example.dadjokes.data.JokeRepository
 import com.example.dadjokes.models.JokeModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,10 +60,15 @@ class JokeAdapter(
                 if (isFavourite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24
             viewHolder.imageHeart.setImageResource(heartImageResource)
         }
-        /*
-        viewHolder.imageHeart.setOnClickListener {
-            listener.onFavouriteButtonClicked(jokeModel)
 
+        viewHolder.imageHeart.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                val isFavourite = listener.searchFavourite(jokeModel)
+                listener.onFavouriteButtonClicked(jokeModel, isFavourite)
+            }
+        }
+
+         /*
             val isFavourite = // Aggiungi qui la logica per verificare se l'elemento è già tra i preferiti
             val heartImageResource = if (isFavourite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24
             viewHolder.imageHeart.setImageResource(heartImageResource)

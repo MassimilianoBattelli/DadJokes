@@ -33,8 +33,22 @@ class HomeViewModel(private val jokeRepository: JokeRepositoryInterface) : ViewM
         )
     }
 
-    override suspend fun onFavouriteButtonClicked(joke: JokeModel) {
-
+    private fun JokeModel.toJoke(): Joke {
+        return Joke(
+            setup = this.setup,
+            punchline = this.punchline,
+            _id = this.id
+        )
+    }
+    override suspend fun onFavouriteButtonClicked(jokeModel: JokeModel, isFavourite: Boolean) {
+        if (isFavourite) {
+            val joke = jokeModel.toJoke()
+            jokeRepository.deleteFavourite(joke)
+        }
+        else {
+            val joke = jokeModel.toJoke()
+            jokeRepository.insertFavourite(joke)
+        }
     }
 
     override suspend fun searchFavourite(joke: JokeModel): Boolean{

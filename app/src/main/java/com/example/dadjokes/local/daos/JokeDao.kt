@@ -1,9 +1,6 @@
 package com.example.dadjokes.local.daos
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.dadjokes.local.entities.FavJokeEntity
 import com.example.dadjokes.local.entities.JokeEntity
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +16,12 @@ interface JokeDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM fav_joke_table WHERE id = :jokeId)")
     suspend fun getJokeById(jokeId: String): Boolean
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertFavourite(favJokeEntity: FavJokeEntity)
+
+    @Delete
+    suspend fun deleteFavourite(favJokeEntity: FavJokeEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(jokeEntity: JokeEntity)
