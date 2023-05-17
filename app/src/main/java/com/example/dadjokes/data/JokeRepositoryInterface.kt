@@ -8,4 +8,5 @@ interface JokeRepositoryInterface {
 
     suspend fun fetchFavJokesFlow(): Flow<List<Joke>>
     suspend fun fetchJokesFlow(): Flow<List<Joke>>
+    suspend fun searchFavourite(jokeId: String): Boolean
 }

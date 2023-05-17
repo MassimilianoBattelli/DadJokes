@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/action_favourites"
-        android:icon="@drawable/baseline_favorite_border_24"
+        android:icon="@drawable/baseline_favorite_bar_border_24"
         android:title="@string/favourites"
         app:showAsAction="always"/>
     <item

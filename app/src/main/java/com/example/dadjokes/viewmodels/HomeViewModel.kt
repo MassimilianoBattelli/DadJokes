@@ -6,9 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.dadjokes.data.JokeRepositoryInterface
 import com.example.dadjokes.models.JokeModel
 import com.example.dadjokes.remote.models.Joke
+import com.example.dadjokes.ui.JokeAdapterListener
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val jokeRepository: JokeRepositoryInterface) : ViewModel() {
+class HomeViewModel(private val jokeRepository: JokeRepositoryInterface) : ViewModel(),
+    JokeAdapterListener {
 
     val jokes: MutableLiveData<List<JokeModel>> by lazy {
         MutableLiveData<List<JokeModel>>()
@@ -29,5 +31,13 @@ class HomeViewModel(private val jokeRepository: JokeRepositoryInterface) : ViewM
             punchline = this.punchline,
             id = this._id
         )
+    }
+
+    override suspend fun onFavouriteButtonClicked(joke: JokeModel) {
+
+    }
+
+    override suspend fun searchFavourite(joke: JokeModel): Boolean{
+        return jokeRepository.searchFavourite(joke.id)
     }
 }

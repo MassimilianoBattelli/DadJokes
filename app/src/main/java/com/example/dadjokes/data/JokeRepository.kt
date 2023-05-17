@@ -17,6 +17,11 @@ import kotlinx.coroutines.withContext
 // instead of the whole database, because you only need access to the DAO
 class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInterface {
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    override suspend fun searchFavourite(jokeId: String): Boolean{
+        return  database.JokeDao().getJokeById(jokeId)
+    }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -73,5 +78,12 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
         return JokeEntity( setup = this.setup,
             punchline = this.punchline,
             id = this._id)
+    }
+
+    private suspend fun <T> doesItemExist(daoQuery: suspend () -> T?): Boolean {
+        return withContext(Dispatchers.IO) {
+            val result = daoQuery.invoke()
+            result != null
+        }
     }
 }

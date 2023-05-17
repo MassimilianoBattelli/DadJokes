@@ -7,8 +7,10 @@ import com.example.dadjokes.remote.models.Joke
 import kotlinx.coroutines.launch
 import androidx.lifecycle.ViewModel
 import com.example.dadjokes.data.JokeRepositoryInterface
+import com.example.dadjokes.ui.JokeAdapterListener
 
-class FavouritesViewModel(private val jokeRepository: JokeRepositoryInterface) : ViewModel() {
+class FavouritesViewModel(private val jokeRepository: JokeRepositoryInterface) : ViewModel(),
+    JokeAdapterListener {
     val jokes: MutableLiveData<List<JokeModel>> by lazy {
         MutableLiveData<List<JokeModel>>()
     }
@@ -28,5 +30,13 @@ class FavouritesViewModel(private val jokeRepository: JokeRepositoryInterface) :
             punchline = this.punchline,
             id = this._id
         )
+    }
+
+    override suspend fun onFavouriteButtonClicked(joke: JokeModel) {
+
+    }
+
+    override suspend fun searchFavourite(joke: JokeModel): Boolean{
+        return jokeRepository.searchFavourite(joke.id)
     }
 }

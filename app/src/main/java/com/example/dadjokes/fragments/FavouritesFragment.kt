@@ -43,7 +43,7 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun bindJokes(jokes: List<JokeModel>) {
-        val adapter = JokeAdapter(jokes)
+        val adapter = JokeAdapter(jokes, viewModel)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }

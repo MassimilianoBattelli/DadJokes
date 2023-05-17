@@ -17,6 +17,9 @@ interface JokeDao {
     @Query("SELECT * FROM fav_joke_table ORDER BY id ASC")
     fun getFavJokes(): List<FavJokeEntity>
 
+    @Query("SELECT EXISTS(SELECT 1 FROM fav_joke_table WHERE id = :jokeId)")
+    suspend fun getJokeById(jokeId: String): Boolean
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(jokeEntity: JokeEntity)
 
