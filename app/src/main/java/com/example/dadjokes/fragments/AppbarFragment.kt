@@ -37,5 +37,4 @@ class AppbarFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }
