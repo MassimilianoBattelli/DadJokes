@@ -21,7 +21,8 @@
 <h3 align="center">DadJokes</h3>
 
   <p align="center">
-    The jokes you all hate
+  <h4>The jokes you all hate</h4>
+  An android app that provides the so-called "DadJokes": unoriginal and predictable joke, especially a pun, the kind supposedly told by fathers. The app provides save and search features for tens of thousands of jokes.
     <br />
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
@@ -66,10 +67,10 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+This is a simple university project with the goal of implementing features of: api calls, MVVM code architecture, saving data in local databes, Kotlin language basics. 
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -130,14 +131,14 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 
 <!-- ROADMAP -->
-## Roadmap
+## Main Features
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [X] Calls to public APIs
+- [X] Factorized code to follow the guidelines of the MVVM architecture
+- [X] Data management in local databases
+   
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -158,16 +159,6 @@ Don't forget to give the project a star! Thanks again!
 5. Open a Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTACT -->
