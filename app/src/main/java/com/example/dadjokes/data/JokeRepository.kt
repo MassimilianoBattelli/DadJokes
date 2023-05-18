@@ -4,9 +4,7 @@ import androidx.annotation.WorkerThread
 import com.example.dadjokes.local.JokeRoomDatabase
 import com.example.dadjokes.local.entities.FavJokeEntity
 import com.example.dadjokes.local.entities.JokeEntity
-import com.example.dadjokes.models.JokeModel
-import com.example.dadjokes.remote.JokeRemoteService
-import com.example.dadjokes.remote.RemoteApi.jokeRemoteService
+import com.example.dadjokes.remote.RemoteApi.api1Service
 import com.example.dadjokes.remote.models.Joke
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -62,7 +60,7 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
 
         var i = 0
         while (i < 5) {
-            val metadata = jokeRemoteService.getMetadata()
+            val metadata = api1Service.getMetadata()
             val apiJokes = metadata.body
 
             val jokeEntities = apiJokes.map { it.toJokeEntity() }

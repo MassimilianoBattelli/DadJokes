@@ -7,18 +7,28 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RemoteApi {
 
-    private const val BASE_URL = "https://dad-jokes.p.rapidapi.com/"
+    private const val BASE_URL_API1 = "https://dad-jokes.p.rapidapi.com/"
+    private const val BASE_URL_API2 = "https://dad-jokes7.p.rapidapi.com/"
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    private val retrofit = Retrofit.Builder()
+    private val retrofitApi1 = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .baseUrl(BASE_URL)
+        .baseUrl(BASE_URL_API1)
         .build()
 
-    val jokeRemoteService: JokeRemoteService by lazy {
-        retrofit.create(JokeRemoteService::class.java)
+    private val retrofitApi2 = Retrofit.Builder()
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .baseUrl(BASE_URL_API2)
+        .build()
+
+    val api1Service: Api1Service by lazy {
+        retrofitApi1.create(Api1Service::class.java)
+    }
+
+    val api2Service: Api2Service by lazy {
+        retrofitApi2.create(Api2Service::class.java)
     }
 }
