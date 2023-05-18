@@ -24,9 +24,7 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
 
         // Controlla se la risposta contiene elementi
         if (response.isNotEmpty()) {
-            val joke = response.first()
-
-            return joke.joke
+            return response.joinToString(separator = "\n\n") { it.joke }
         }
 
         return "No joke found by keyword: '$keyword'"

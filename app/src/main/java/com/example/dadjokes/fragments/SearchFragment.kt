@@ -41,15 +41,15 @@ class SearchFragment : Fragment() {
         val textViewResult: TextView = view.findViewById(R.id.textViewResult)
 
         searchButton.setOnClickListener {
+            /*
             CoroutineScope(Dispatchers.Main).launch {
                 val keyword = keywordEditText.text.toString()
                 textViewResult.text = viewModel.searchJokeByKeyword(keyword)
             }
+            */
+            CoroutineScope(Dispatchers.Main).launch {
+                textViewResult.text = "Prima battuta \nSeconda battuta\nTerza battuta"
+            }
         }
-        /*
-        searchViewModel.jokeResult.observe(viewLifecycleOwner) { joke ->
-            resultTextView.text = joke
-        }
-         */
     }
 }
