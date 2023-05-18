@@ -13,4 +13,5 @@ interface JokeRepositoryInterface {
     suspend fun searchFavourite(jokeId: String): Boolean
     suspend fun insertFavourite(joke: Joke)
     suspend fun deleteFavourite(joke: Joke)
+    suspend fun  searchJokeByKeyword(keyword: String): String
 }

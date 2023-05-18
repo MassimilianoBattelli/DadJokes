@@ -5,6 +5,7 @@ import com.example.dadjokes.local.JokeRoomDatabase
 import com.example.dadjokes.local.entities.FavJokeEntity
 import com.example.dadjokes.local.entities.JokeEntity
 import com.example.dadjokes.remote.RemoteApi.api1Service
+import com.example.dadjokes.remote.RemoteApi.api2Service
 import com.example.dadjokes.remote.models.Joke
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -15,6 +16,21 @@ import kotlinx.coroutines.withContext
 // Declares the DAO as a private property in the constructor. Pass in the DAO
 // instead of the whole database, because you only need access to the DAO
 class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInterface {
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    override suspend fun searchJokeByKeyword(keyword: String): String{
+        val response = api2Service.doSearch(keyword)
+
+        // Controlla se la risposta contiene elementi
+        if (response.isNotEmpty()) {
+            val joke = response.first()
+
+            return joke.joke
+        }
+
+        return "No joke found by keyword: '$keyword'"
+    }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -99,12 +115,4 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
             id = this._id)
     }
 
-
-
-    private suspend fun <T> doesItemExist(daoQuery: suspend () -> T?): Boolean {
-        return withContext(Dispatchers.IO) {
-            val result = daoQuery.invoke()
-            result != null
-        }
-    }
 }
