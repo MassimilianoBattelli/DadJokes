@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.dadjokes.fragments.AppbarFragment
-import com.example.dadjokes.fragments.RecyclerFragment
+import com.example.dadjokes.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             currentFragment = supportFragmentManager.getFragment(savedInstanceState, "currentFragment")
         } else {
             // Crea e visualizza il fragment iniziale
-            currentFragment = RecyclerFragment()
+            currentFragment = HomeFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container_main, currentFragment!!)
                 .commit()
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
 
-        val mainPageFragment = RecyclerFragment() // Replace RecyclerFragment with your actual main page fragment class
+        val mainPageFragment = HomeFragment() // Replace RecyclerFragment with your actual main page fragment class
         fragmentManager.beginTransaction()
             .replace(R.id.container_main, mainPageFragment)
             .commit()

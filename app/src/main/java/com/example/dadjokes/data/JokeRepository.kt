@@ -73,6 +73,7 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
         }
 
         var i = 0
+        val collectedJokes = mutableListOf<Joke>()
         while (i < 5) {
             val metadata = api1Service.getMetadata()
             val apiJokes = metadata.body
@@ -82,12 +83,33 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
                 database.JokeDao().insertJokes(jokeEntities)
             }
 
-            emit(apiJokes)
-
-            delay(5000)
+            collectedJokes.addAll(apiJokes)
             i += 1
         }
+        emit(collectedJokes)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    override suspend fun refreshJokesFlow(): Flow<List<Joke>> = flow {
+        database.JokeDao().deleteAll()
+        var i = 0
+        val collectedJokes = mutableListOf<Joke>()
+        while (i < 5) {
+            val metadata = api1Service.getMetadata()
+            val apiJokes = metadata.body
+
+            val jokeEntities = apiJokes.map { it.toJokeEntity() }
+            withContext(Dispatchers.IO) {
+                database.JokeDao().insertJokes(jokeEntities)
+            }
+
+            collectedJokes.addAll(apiJokes)
+            i += 1
+        }
+        emit(collectedJokes)
+    }
+
 
     private fun JokeEntity.toJoke(): Joke {
         return Joke( setup = this.setup,

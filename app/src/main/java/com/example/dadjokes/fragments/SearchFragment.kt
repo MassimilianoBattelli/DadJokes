@@ -39,7 +39,7 @@ class SearchFragment : Fragment() {
         val keywordEditText: EditText = view.findViewById(R.id.keywordEditText)
         val searchButton: Button = view.findViewById(R.id.searchButton)
         val textViewResult: TextView = view.findViewById(R.id.textViewResult)
-
+        // TODO da mettere a posto
         searchButton.setOnClickListener {
             /*
             CoroutineScope(Dispatchers.Main).launch {

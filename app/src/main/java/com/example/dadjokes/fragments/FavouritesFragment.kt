@@ -15,15 +15,18 @@ import com.example.dadjokes.ui.JokeAdapter
 import com.example.dadjokes.viewmodels.FavouritesViewModel
 import com.example.dadjokes.viewmodels.FavouritesViewModelFactory
 import com.example.dadjokes.viewmodels.HomePageViewModelFactory
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class FavouritesFragment : Fragment() {
 
     private lateinit var viewModel: FavouritesViewModel
     private lateinit var recyclerView: RecyclerView
+    private lateinit var fab: FloatingActionButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_recycler, container, false)
         recyclerView = view.findViewById(R.id.recyclerview)
+        fab = view.findViewById(R.id.fab)
         return view
     }
 
@@ -40,6 +43,12 @@ class FavouritesFragment : Fragment() {
         }
 
         viewModel.getJokeList()
+
+        fab.setOnClickListener {
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.detach(this@FavouritesFragment).attach(this@FavouritesFragment).commit()
+            viewModel.getJokeList()
+        }
     }
 
     private fun bindJokes(jokes: List<JokeModel>) {

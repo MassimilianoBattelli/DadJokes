@@ -25,6 +25,15 @@ class HomeViewModel(private val jokeRepository: JokeRepositoryInterface) : ViewM
         }
     }
 
+    fun refreshJokes() {
+        viewModelScope.launch {
+            jokeRepository.refreshJokesFlow().collect { resultJokesFromRepo ->
+                val uiJokes = resultJokesFromRepo.map { it.toJokeModel() }
+                jokes.postValue(uiJokes)
+            }
+        }
+    }
+
     private fun Joke.toJokeModel(): JokeModel {
         return JokeModel(
             setup = this.setup,
