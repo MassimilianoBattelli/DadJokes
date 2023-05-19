@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +25,11 @@ class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
@@ -39,17 +44,21 @@ class SearchFragment : Fragment() {
         val keywordEditText: EditText = view.findViewById(R.id.keywordEditText)
         val searchButton: Button = view.findViewById(R.id.searchButton)
         val textViewResult: TextView = view.findViewById(R.id.textViewResult)
-        // TODO da mettere a posto
+
         searchButton.setOnClickListener {
-            /*
+
             CoroutineScope(Dispatchers.Main).launch {
                 val keyword = keywordEditText.text.toString()
-                textViewResult.text = viewModel.searchJokeByKeyword(keyword)
+                if (keyword.isEmpty()) {
+                    keywordEditText.error = "empty field"
+                } else {
+                    textViewResult.text = viewModel.searchJokeByKeyword(keyword)
+                }
             }
-            */
+            /*
             CoroutineScope(Dispatchers.Main).launch {
                 textViewResult.text = "Prima battuta \nSeconda battuta\nTerza battuta"
-            }
+            */
         }
     }
 }
