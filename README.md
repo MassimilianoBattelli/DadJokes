@@ -48,8 +48,8 @@
       </ul>
     </li>
     </li>
-    <li><a href="#The app consist of 4 pages:">Overview</a></li>
-    <li><a href="#Main Features">Main Features</a></li>
+    <li><a href="#the app consist of 4 pages:">Overview</a></li>
+    <li><a href="#main Features">Main Features</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
