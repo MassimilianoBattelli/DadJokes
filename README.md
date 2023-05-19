@@ -48,8 +48,8 @@
       </ul>
     </li>
     </li>
-    <li><a href="#the app consist of 4 pages:">Overview</a></li>
-    <li><a href="#main features">Main Features</a></li>
+    <li><a href="#Pages">Overview</a></li>
+    <li><a href="#features">Features</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -78,7 +78,7 @@ This is a simple university project with the goal of implementing features of: a
 
 
 <!-- USAGE EXAMPLES -->
-## The app consist of 4 pages:
+## Pages
 
 
 ### MainPage: 
@@ -113,7 +113,7 @@ Here is possibile to add a custom joke to the favourites
 
 
 <!-- ROADMAP -->
-## Main Features
+## Features
 
 - [X] Calls to public APIs
 - [X] Factorized code to follow the guidelines of the MVVM architecture
