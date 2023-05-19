@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -33,19 +34,26 @@ class AddFragment : Fragment() {
             AddViewModelFactory((requireActivity().application as MainApplication).repository)
         )[AddViewModel::class.java]
 
-        val setupTextView: TextView = view.findViewById(R.id.setupTextView)
-        val setupEditTExt: EditText = view.findViewById(R.id.setupEditText)
+        //val setupTextView: TextView = view.findViewById(R.id.setupTextView)
+        val setupEditText: EditText = view.findViewById(R.id.setupEditText)
 
-        val punchlineTextView: TextView = view.findViewById(R.id.punchlineTextView)
-        val punchlineEditTExt: EditText = view.findViewById(R.id.punchlineEditText)
+        //val punchlineTextView: TextView = view.findViewById(R.id.punchlineTextView)
+        val punchlineEditText: EditText = view.findViewById(R.id.punchlineEditText)
 
         val addButton: Button = view.findViewById(R.id.addButton)
 
 
         addButton.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val keyword = keywordEditText.text.toString()
-                textViewResult.text = viewModel.searchJokeByKeyword(keyword)
+                val setup = setupEditText.text.toString()
+                val punchline = punchlineEditText.text.toString()
+                if (setup.isEmpty() && punchline.isEmpty()){
+                    setupEditText.error = "enter at least one field"
+
+                } else {
+                    viewModel.addToFavourites(setup, punchline)
+                    Toast.makeText(requireContext(), "Joke added to favorites!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
