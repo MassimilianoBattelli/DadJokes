@@ -75,7 +75,6 @@ classDiagram
      class JokeFav{
 
     }
-
 ```
 Nel caso si voglia aggiungere altre funzionalità basterà aggiungere un fragment e implementare le logiche di businness e layout.
 
@@ -89,19 +88,143 @@ View: rappresenta l'interfaccia utente (UI) dell'applicazione. Questo include le
 ViewModel: agisce come intermediario tra la View e il Model. È responsabile di fornire i dati necessari alla View e di gestire le azioni dell'utente. Il ViewModel contiene la logica di presentazione che consente di preparare i dati da visualizzare nella View e di gestire le interazioni dell'utente come i clic sui pulsanti o le modifiche degli input dell'utente. Inoltre, il ViewModel può avere una connessione con il Model per recuperare o salvare i dati necessari.
 
 
-```mermaid
-
-```
-
 ## Design dettagliato
 
-### Titolo
+### HomeFragment e FavouritesFragment
+
+I fragment riguardanto l'Homepage e la Favouritespage presentano la stessa architettura di codice, nello schema UML seguente si mostra solo quella della Home per sintetizzare:
 
 ```mermaid
+classDiagram
+    class HomeFragment {
+        -viewModel: HomeViewModel
+        -recyclerView: RecyclerView
+        -fab: FloatingActionButton
+    }
 
+    class HomeViewModel {
+        -jokeRepository: JokeRepository
+        -jokeList: MutableLiveData<List<JokeModel>>
+        +getJokesList()
+        +refreshJokes()
+        +onFavouriteButtonClicked()
+        +searchFavourite()
+    }
 
+    class JokeAdapterListener {
+        <<interface>>
+        +onFavouriteButtonClicked()
+        +searchFavourite()
+    }
+
+    class JokeAdapter {
+        +onCreateViewHolder()
+        +onBindViewHolder()
+    }
+
+    class JokeRepository {
+        +searchJokeByKeyword()
+        +searchFavourite()
+        +insertFavourite()
+        +deleteFavourite()
+        +fetchFavJokesFlow()
+        +fetchJokesFlow()
+        +refreshJokesFlow()
+    }
+
+    class JokeDao {
+        +List Query()
+    }
+
+    class Api1Service{
+        +GET getMetadata()
+    }
+
+    class HomeViewModelFactory{
+        +create() HomeViewModel
+    }
+    HomeViewModelFactory --> HomeViewModel
+    HomeFragment --> HomeViewModelFactory
+    HomeViewModel *-- JokeRepository
+    HomeViewModel --|> JokeAdapterListener
+    JokeAdapterListener --> JokeAdapter
+    JokeRepository --> JokeDao
+    JokeRepository --> Api1Service
 ```
+Il fragment contiene riferimenti alla recyclerView e al Fab button, utilizzando la classe HomeViewModelFactory crea un istanza del HomeViewModel che gestirà la logica di passaggio dei dati.
+Il ViewModel implementa l'interfaccia JokeAdapterListener che definisce dei metodi per interagire con la recyclerView. Il JokeAdapter definisce la vista degli elementi della lista.
+Il ViewModel inoltre è responsabile di interagire con il JokeRepository che funge da intermediario tra la sorgente dei dati (database locale, e le API remote) e il resto dell'applicazione. Esso fornisce un'interfaccia comune per accedere e manipolare i dati, senza che il resto dell'applicazione debba conoscere i dettagli specifici di come i dati sono ottenuti e memorizzati.
+Il Repository utilizza l'interfaccia Dao per fare le query al database room locale, e l'interfaccia Api1Service per fare le chiamate all'API tramite le librerie retrofi e moshi.
 
+### AddFragment
+
+L'AddFragment si riferisce alla pagina di aggiunto di una battuta dall'utente alla liste delle preferite:
+```mermaid
+classDiagram
+    class AddFragment {
+        -viewModel: AddViewModel
+    }
+
+    class AddViewModel {
+        -jokeRepository: JokeRepository
+        +AddtoFavourites()
+    }
+
+
+    class JokeRepository {
+        +insertFavourite()
+    }
+
+    class JokeDao {
+        +List Query()
+    }
+
+    class AddViewModelFactory{
+        +create() AddViewModel
+    }
+
+    AddViewModelFactory --> AddViewModel
+    AddFragment --> AddViewModelFactory
+    AddViewModel *-- JokeRepository
+    JokeRepository --> JokeDao
+```
+Simile all'architettura precedente, in questo caso la funzione del Repository deve solamente interagire con il database locale per inserite la battuta.
+
+### SearchFragment 
+
+Questo fragment è riferito alla pagina di ricerca delle battute tramite una parola chave.
+La struttura è molto similie a quella dell'AddFragment, unica differenzia sostanziale è che il Repository invece che comunicare con il database locale deve fare una query di ricerca alla seconda
+Api del progetto, tramite l'interfaccia Api2Service.
+```mermaid
+classDiagram
+    class SearchFragment {
+        -viewModel: SearchViewModel
+    }
+
+    class SearchViewModel {
+        -jokeRepository: JokeRepository
+        +SearchJokeByKeyword()
+    }
+
+
+    class JokeRepository {
+        +searchJokeByKeyword()
+    }
+
+    class Api2Service{
+        <<interface>>
+        +GET doSearch()
+    }
+
+    class SearchViewModelFactory{
+        +create() SearchViewModel
+    }
+
+    SearchViewModelFactory --> SearchViewModel
+    SearchFragment --> SearchViewModelFactory
+    SearchViewModel *-- JokeRepository
+    JokeRepository --> Api2Service
+```
 # Sviluppo
 
 ## Note di sviluppo
