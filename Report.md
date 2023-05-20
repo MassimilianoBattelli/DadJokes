@@ -2,7 +2,7 @@
 
 ### Abstract
 
-L'app ha lo scopo di fornire un enorme quantità di battute predefinite all'utente il quale può leggerne quante ne vuole,  salvarne di preferite, aggiungerne di sue per non rischiare di dimenticarle,
+L'app ha lo scopo di fornire un enorme quantità di battute predefinite all'utente il quale può: leggerne quante ne vuole,  salvarne di preferite, aggiungerne di sue per non rischiare di dimenticarle,
 e anche di cercarne in base a delle parole chiave.
 
 #### Requisiti funzionali
@@ -19,13 +19,13 @@ e anche di cercarne in base a delle parole chiave.
 
 ### Analisi e modello del Dominio
 
-Il modello è formato da una activity principale che contiente tutto l'applicativo e la navigazione tra le pagine è stata fatta tramite il funzionamento dei fragment. La MainActivity contente un Appbarfragment che costituisce la barra delle applicazioni situata nella parte sopra dello schermo, da cui è possibile navigare tra le pagine. All'avvio apparirà il fragment della pagina principale 'HomeFragment', tramite l'Appbar è possibile navigare sostituiendo il fragment corrente con un altro.
+Il modello è formato da una Activity principale che contiente tutto l'applicativo e la navigazione tra le pagine è stata fatta tramite il funzionamento dei fragment. La MainActivity contente un Appbarfragment che costituisce la barra delle applicazioni situata nella parte sopra dello schermo, da cui è possibile navigare tra le pagine. All'avvio apparirà il fragment della pagina principale 'HomeFragment', tramite l'Appbar è possibile navigare sostituiendo il fragment corrente con un altro.
 L'HomeFragment contiene la lista delle battute generate dall'Api e automaticamente salvate nel database locale.
 Il FavouritesFragment contiene la lista delle battute salvate nel database dei preferiti.
 SearchFragment contiene il form a cui è possibile cercare delle battute tramite una parola chiave.
 AddFragment contiente il form per aggiungere una battuta propria al database dei preferiti.
 
-Gli elementi costitutivi del dominio sono sintetizzati nella seguente figura.
+Gli elementi costitutivi del dominio sono sintetizzati nel seguente schema UML.
 
 ```mermaid
 classDiagram
@@ -154,7 +154,7 @@ classDiagram
 Il fragment contiene riferimenti alla recyclerView e al Fab button, utilizzando la classe HomeViewModelFactory crea un istanza del HomeViewModel che gestirà la logica di passaggio dei dati.
 Il ViewModel implementa l'interfaccia JokeAdapterListener che definisce dei metodi per interagire con la recyclerView. Il JokeAdapter definisce la vista degli elementi della lista.
 Il ViewModel inoltre è responsabile di interagire con il JokeRepository che funge da intermediario tra la sorgente dei dati (database locale, e le API remote) e il resto dell'applicazione. Esso fornisce un'interfaccia comune per accedere e manipolare i dati, senza che il resto dell'applicazione debba conoscere i dettagli specifici di come i dati sono ottenuti e memorizzati.
-Il Repository utilizza l'interfaccia Dao per fare le query al database room locale, e l'interfaccia Api1Service per fare le chiamate all'API tramite le librerie retrofi e moshi.
+Il Repository utilizza l'interfaccia Dao per fare le query al database room locale, e le interfacce Api1Service Api2Service per fare le chiamate alle API tramite le librerie retrofi e moshi.
 
 ### AddFragment
 
@@ -188,13 +188,13 @@ classDiagram
     AddViewModel *-- JokeRepository
     JokeRepository --> JokeDao
 ```
-Simile all'architettura precedente, in questo caso la funzione del Repository deve solamente interagire con il database locale per inserite la battuta.
+Simile all'architettura precedente, in questo caso la funzione del Repository deve solamente interagire con il database locale per inserire la battuta.
 
 ### SearchFragment 
 
 Questo fragment è riferito alla pagina di ricerca delle battute tramite una parola chave.
 La struttura è molto similie a quella dell'AddFragment, unica differenzia sostanziale è che il Repository invece che comunicare con il database locale deve fare una query di ricerca alla seconda
-Api del progetto, tramite l'interfaccia Api2Service.
+Api del progetto (Api2Service).
 ```mermaid
 classDiagram
     class SearchFragment {
@@ -225,13 +225,15 @@ classDiagram
     SearchViewModel *-- JokeRepository
     JokeRepository --> Api2Service
 ```
-# Sviluppo
+## Possibili migliorie
 
-## Note di sviluppo
+### Limiti dovuti agli abbonamenti gratuiti delle Api
+* La versione free dell'Api per il recupero delle battute mette a disposizione solo 50 richieste giornaliere, e non concede di utilizzare altre query tra cui: ricerca, ricerca per tipo, ricerca per id. 
+Infatti per poter implementare la funzionalità di ricerca ho dovuto usare una seconda Api che l'avesse nel piano gratuito. 
+* La seconda Api usata fornisce le battute sotto forma di stringa univoca e non come forma: "Setup" + "Punchline" che fornisce la prima Api. Per questo motivo se avesso voluto implementare anche la logica di aggiunta ai preferiti delle battute ricercate, avrei dovuto gestire la conversione delle risposte tra un Api all'altra. Mi sembrava un perdita di tempo non essendo l'obiettivo del corso. 
+Se avessi avuto a disposizione un piano a pagamento mi sarebbe bastata una sola Api per tutto il progetto, riducendo di molto il codice necessario e potendo implementare più facilmente le funzionalità citate.
 
-
-
-# Commenti finali
-
-## Autovalutazione e lavori futuri
-
+### Codice e Commenti finali
+Il codice è sicuramente migliorabile, ma essendo la prima volta che lavoravo con la sintassi Kotlin e le App per telefono mi sembra di aver raggiunto un compromesso abbastanza accettabile.
+L'architettura credo di averla strutturata abbastanza bene anche se sono convinto che si potrebbe migliorare ulteriormente.
+Mi rendo conto dei limiti progettuali e soprattutto di design grafico che possiedo ma dato l'ammontare di ore non troppo elevato usato per la conclusione del progetto, mi sento soddisfatto del risultato ottenuto.
