@@ -17,5 +17,4 @@ interface Api1Service {
 
     @GET("joke/count")
     suspend fun getCount(): CountResponse
-
 }

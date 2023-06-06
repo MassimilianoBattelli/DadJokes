@@ -20,8 +20,8 @@ object RemoteApi {
         .build()
 
     private val retrofitApi2 = Retrofit.Builder()
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(BASE_URL_API2)
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
     val api1Service: Api1Service by lazy {

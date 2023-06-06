@@ -13,8 +13,7 @@ import com.example.dadjokes.R
 import com.example.dadjokes.models.JokeModel
 import com.example.dadjokes.ui.JokeAdapter
 import com.example.dadjokes.viewmodels.FavouritesViewModel
-import com.example.dadjokes.viewmodels.FavouritesViewModelFactory
-import com.example.dadjokes.viewmodels.HomePageViewModelFactory
+import com.example.dadjokes.viewmodels.factory.FavouritesViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class FavouritesFragment : Fragment() {

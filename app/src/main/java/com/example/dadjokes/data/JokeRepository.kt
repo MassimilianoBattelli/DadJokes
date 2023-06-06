@@ -7,27 +7,37 @@ import com.example.dadjokes.local.entities.JokeEntity
 import com.example.dadjokes.remote.RemoteApi.api1Service
 import com.example.dadjokes.remote.RemoteApi.api2Service
 import com.example.dadjokes.remote.models.Joke
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
-// Declares the DAO as a private property in the constructor. Pass in the DAO
-// instead of the whole database, because you only need access to the DAO
+
 class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInterface {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    override suspend fun searchJokeByKeyword(keyword: String): String{
+    override suspend fun searchJokeByKeyword(keyword: String): String {
+
         val response = api2Service.doSearch(keyword)
 
-        // Controlla se la risposta contiene elementi
-        if (response.isNotEmpty()) {
-            return response.joinToString(separator = "\n\n") { it.joke }
+        if (response.isSuccessful) {
+            val jokeList = response.body()
+            if (jokeList != null && jokeList.isNotEmpty()) {
+                return jokeList.joinToString(separator = "\n\n") { it.joke }
+            } else {
+                return "No joke found by keyword: '$keyword'"
+            }
+        } else {
+            if (response.code() == 429) {
+                return "Too many requests. Upgrade your plan or wait tomorrow"
+            } else if (response.code() == 400) {
+                return "Query parameter length should be more than 3 characters."
+            }
         }
-
-        return "No joke found by keyword: '$keyword'"
+        return "An unknown error occurred"
     }
 
     @Suppress("RedundantSuspendModifier")

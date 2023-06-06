@@ -12,7 +12,7 @@ import com.example.dadjokes.MainApplication
 import com.example.dadjokes.R
 import com.example.dadjokes.models.JokeModel
 import com.example.dadjokes.ui.JokeAdapter
-import com.example.dadjokes.viewmodels.HomePageViewModelFactory
+import com.example.dadjokes.viewmodels.factory.HomePageViewModelFactory
 import com.example.dadjokes.viewmodels.HomeViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
