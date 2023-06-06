@@ -40,6 +40,74 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
         return "An unknown error occurred"
     }
 
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    override suspend fun fetchJokesFlow(): Flow<List<Joke>> = flow {
+        val cachedJokes: List<JokeEntity> = withContext(Dispatchers.IO) {
+            database.JokeDao().getJokes()
+        }
+
+        if (cachedJokes.isNotEmpty()) {
+            emit(cachedJokes.map { it.toJoke() })
+            return@flow
+        }
+
+        var i = 0
+        val collectedJokes = mutableListOf<Joke>()
+        while (i < 5) {
+            val response = api1Service.getMetadata()
+            if (response.isSuccessful) {
+                val apiJokes = response.body()?.body
+                val jokeEntities = apiJokes?.map { it.toJokeEntity() }
+                withContext(Dispatchers.IO) {
+                    if (jokeEntities != null) {
+                        database.JokeDao().insertJokes(jokeEntities)
+                    }
+                }
+                if (apiJokes != null) {
+                    collectedJokes.addAll(apiJokes)
+                }
+            } else {
+                collectedJokes.clear()
+                emit(collectedJokes)
+                return@flow
+            }
+            i += 1
+        }
+        emit(collectedJokes)
+        return@flow
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    override suspend fun refreshJokesFlow(): Flow<List<Joke>> = flow {
+        database.JokeDao().deleteAll()
+        var i = 0
+        val collectedJokes = mutableListOf<Joke>()
+        while (i < 5) {
+            val response = api1Service.getMetadata()
+            if (response.isSuccessful) {
+                val apiJokes = response.body()?.body
+                val jokeEntities = apiJokes?.map { it.toJokeEntity() }
+                withContext(Dispatchers.IO) {
+                    if (jokeEntities != null) {
+                        database.JokeDao().insertJokes(jokeEntities)
+                    }
+                }
+                if (apiJokes != null) {
+                    collectedJokes.addAll(apiJokes)
+                }
+            } else {
+                collectedJokes.clear()
+                emit(collectedJokes)
+            }
+            i += 1
+        }
+        emit(collectedJokes)
+    }
+
+
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     override suspend fun searchFavourite(jokeId: String): Boolean{
@@ -70,55 +138,6 @@ class JokeRepository(private val database: JokeRoomDatabase) : JokeRepositoryInt
 
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    override suspend fun fetchJokesFlow(): Flow<List<Joke>> = flow {
-        val cachedJokes: List<JokeEntity> = withContext(Dispatchers.IO) {
-            database.JokeDao().getJokes()
-        }
-
-        if (cachedJokes.isNotEmpty()) {
-            emit(cachedJokes.map { it.toJoke() })
-            return@flow
-        }
-
-        var i = 0
-        val collectedJokes = mutableListOf<Joke>()
-        while (i < 5) {
-            val metadata = api1Service.getMetadata()
-            val apiJokes = metadata.body
-
-            val jokeEntities = apiJokes.map { it.toJokeEntity() }
-            withContext(Dispatchers.IO) {
-                database.JokeDao().insertJokes(jokeEntities)
-            }
-
-            collectedJokes.addAll(apiJokes)
-            i += 1
-        }
-        emit(collectedJokes)
-    }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    override suspend fun refreshJokesFlow(): Flow<List<Joke>> = flow {
-        database.JokeDao().deleteAll()
-        var i = 0
-        val collectedJokes = mutableListOf<Joke>()
-        while (i < 5) {
-            val metadata = api1Service.getMetadata()
-            val apiJokes = metadata.body
-
-            val jokeEntities = apiJokes.map { it.toJokeEntity() }
-            withContext(Dispatchers.IO) {
-                database.JokeDao().insertJokes(jokeEntities)
-            }
-
-            collectedJokes.addAll(apiJokes)
-            i += 1
-        }
-        emit(collectedJokes)
-    }
 
 
     private fun JokeEntity.toJoke(): Joke {
