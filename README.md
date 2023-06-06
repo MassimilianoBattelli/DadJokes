@@ -55,7 +55,11 @@
   </ol>
 </details>
 
-
+## Notes
+Api used for the project:
+- To retrieve jokes in the main page: https://rapidapi.com/KegenGuyll/api/dad-jokes 50 jokes a day
+- To search a joke by keyword: https://rapidapi.com/almann/api/dad-jokes7 10 search a day
+- If the app doesnt display the jokes or a 429 http response is shown wait 24h
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
